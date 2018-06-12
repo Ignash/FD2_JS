@@ -21,17 +21,16 @@ setTemplate(routedElement, templateId);
 }
 
 function getTemplateId(path, route) {
-        if (path.length != 0) {
-            route = route[path[0]];
-            if (typeof route !== "undefined"){
-                path.shift();
-                return getTemplateId(path, route);
-            }else {
-                return undefined;
-            }
-        } else{
-            return route;
+    while (path.length != 0) {
+         route = route[path[0]];
+        if (typeof route !== "undefined"){
+            path.shift();
+            return getTemplateId(path, route);
+        } else {
+            return undefined; 
         }
+    }; 
+    return route;
     }
     // for (var i=0; i <path.length; i++) {
     //     route = route[path[i]];

@@ -77,7 +77,7 @@ describe('Test for isNull', function () {
     it('value is not Null ', function() {
         expect(isNull(5)).toBeFalsy();
     });
-    // write tests here
+   
 });
 
 describe('Test for getGreeting', function () {
@@ -101,7 +101,7 @@ describe('Test for getGreeting', function () {
         expect(getGreeting('World')).toBe("Hello World");
     });
 
-    // write tests here
+
 });
 
 describe('Test for parseBoolean', function () {

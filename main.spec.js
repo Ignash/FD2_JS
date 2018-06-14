@@ -110,12 +110,20 @@ describe('Test for parseBoolean', function () {
         expect(parseBoolean(' TruE')).toBe(true);
     });
 
+    it('not must return true for " TruE2" string', function () {
+        expect(parseBoolean(' TruE2')).not.toBe(true);
+    });
+
     it('not return true for " ruE" string', function () {
         expect(parseBoolean(' ruE')).toBeFalsy();
     });
 
-    it('equality true for "  tRUe" ', function () {
-        expect(parseBoolean('  tRUe')).toBeTruthy();
+    it('return  true for "T ru e " string', function () {
+        expect(parseBoolean(' truE')).not.toBeFalsy();
+    });
+
+    it('not return true  for "   r ue 1" ', function () {
+        expect(parseBoolean('T r ue ')).not.toBeTruthy();
     });
 
     // write tests here
@@ -126,12 +134,23 @@ describe('Test for getPathByHash', function () {
     it('must return ["user", "create"] for "user/create" hash string', function () {
         expect(getPathByHash('user/create')).toEqual(['user', 'create']);
     });
+
+    it('the result  of the function not equal ["name", "max"]', function () {
+        expect(getPathByHash('user/create')).not.toEqual(['name', 'max']);    
+    });
+
     it('the result  of the function contains "user" ', function () {
         expect(getPathByHash('user/create')).toContain('user');
     });
+
+    it('the result  of the function not contains "name" ', function () {
+        expect(getPathByHash('user/create')).not.toContain('name');
+    });
+
     it('the result  of the function not null ', function () {
         expect(getPathByHash('user/create')).not.toBeNull();
     });
+
     it('the result  of the function not undefined ', function () {
         expect(getPathByHash('user/create')).toBeDefined();
     });
@@ -139,3 +158,4 @@ describe('Test for getPathByHash', function () {
 
     // write tests here
 });
+

@@ -23,45 +23,55 @@ function getPathByHash(hash) {
 }
 
 describe('Test for addition', function () {
+
     it('the sum of the numbers is 10', function() {
         expect(addition(5, 5)).toBe(10);
     });
+
     it('the sum of the numbers is not 1', function() {
         expect(addition(5, 5)).not.toBe(1);
     });
+
     it('value is not undefined ', function() {
         expect(addition(5, 5)).toBeDefined();
     });
-    
+        
     it('value is not Null ', function() {
         expect(addition(5, 5)).not.toBeNull();
     });
+
     it('value is not NaN ', function() {
         expect(addition(5, 5)).not.toBeNaN();
     });
+
     it('value is string contain "day"', function() {
         expect(addition('sun ', 'day')).toContain('day');
     });
+
     it('value is string equally "sun day"', function() {
         expect(addition('sun ', 'day')).toMatch(/sun day/);
     });
+
     it('value is  less than 5 ', function() {
         expect(addition(1, 3)).toBeLessThan(5);
     });
+
     it('value is less or equal 10 ', function() {
         expect(addition(5, 5)).toBeLessThanOrEqual(10);
     });
+
     it('value is more than 5 ', function() {
         expect(addition(5, 5)).toBeGreaterThan(5);
     });
+    
     it('value is more or equal 0 ', function() {
         expect(addition(5, 5)).toBeGreaterThan(0);
     });
-        
-    // write tests here
+    
 });
 
 describe('Test for isNull', function () {
+
     it('must return true ', function() {
         expect(isNull(null)).toBe(true);
     });
@@ -81,6 +91,7 @@ describe('Test for isNull', function () {
 });
 
 describe('Test for getGreeting', function () {
+
     it('value is not undefined ', function() {
         expect(getGreeting('World')).toBeDefined();
     });
@@ -88,19 +99,22 @@ describe('Test for getGreeting', function () {
     it('value is not Null ', function() {
         expect(getGreeting('World')).not.toBeNull();
     });
+
     it('value is not NaN ', function() {
         expect(getGreeting('World')).not.toBeNaN();
     });
+
     it('value is string contain "Hello"', function() {
         expect(getGreeting('World')).toContain('Hello');
     });
+
     it('value is string equally "Hello World"', function() {
         expect(getGreeting('World')).toMatch(/Hello World/);
     });
+
     it('the sum is tring "Hello World"', function() {
         expect(getGreeting('World')).toBe("Hello World");
     });
-
 
 });
 
@@ -126,7 +140,6 @@ describe('Test for parseBoolean', function () {
         expect(parseBoolean('T r ue ')).not.toBeTruthy();
     });
 
-    // write tests here
 });
 
 describe('Test for getPathByHash', function () {
@@ -155,7 +168,5 @@ describe('Test for getPathByHash', function () {
         expect(getPathByHash('user/create')).toBeDefined();
     });
     
-
-    // write tests here
 });
 

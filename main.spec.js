@@ -1,172 +1,200 @@
-function addition(left, right) {
-    return left + right;
-}
+describe('СТРОКИ', function () {
+    
+    var str1 = "Hello ",
+        str2 = "World",
+        str3 = "Hello World";
 
-function isNull(value) {
-    return value === null;
-}
+    describe('Создание строк ', function (){
 
-function getGreeting(name) {
-    return 'Hello ' + name;
-}
+        it("Создание строек с помощью \"\" и \'\' ", function() {
+            var s1 = "man",
+                s2 = 'gerl';
+            expect(typeof s1, s2).toBe("string");
+        });
 
-function parseBoolean(value) {
-    return value.trim().toLowerCase() === 'true';
-}
+        it('Метод repeat()', function () {
 
-function getPathByHash(hash) {
-    return hash.split('/').map(function (item) {
-        return item.trim();
-    }).filter(function (item) {
-        return item !== ''
-    });
-}
+            var RepEt = str1.repeat(2);
+            expect(RepEt).toBe("Hello Hello ");
 
-describe('Test for addition', function () {
+        });
 
-    it('the sum of the numbers is 10', function() {
-        expect(addition(5, 5)).toBe(10);
-    });
+        it('Метод replace()', function () {
+            
+            var RePlace = str3.replace("Hello", str2);
+            expect(RePlace).toBe("World World");
 
-    it('the sum of the numbers is not 1', function() {
-        expect(addition(5, 5)).not.toBe(1);
-    });
+        });
 
-    it('value is not undefined ', function() {
-        expect(addition(5, 5)).toBeDefined();
-    });
+        it('Метод slice()', function(){
+
+            var mySlice = str1.slice(1, 5);
+            expect(mySlice).toBe("ello");
+
+            mySlice = str1.slice(-2, -1);
+            expect(mySlice).toBe("o");
+
+            mySlice = str1.slice(0);
+            expect(mySlice).toBe("Hello ");
+
+            mySlice = str1.slice(2);
+            expect(mySlice).toBe("llo ");
+
+        });
+
+        it('Метод substr()', function(){
+
+            var SubStr = str3.substr(2);
+            expect(SubStr).toBe("llo World");
+
+            SubStr = str3.substr(2, 2);
+            expect(SubStr).toBe("ll");
+
+        });
         
-    it('value is not Null ', function() {
-        expect(addition(5, 5)).not.toBeNull();
-    });
+        it('Метод substring()', function(){
 
-    it('value is not NaN ', function() {
-        expect(addition(5, 5)).not.toBeNaN();
-    });
+            var SubString = str3.substring(2);
+            expect(SubString).toBe("llo World");
 
-    it('value is string contain "day"', function() {
-        expect(addition('sun ', 'day')).toContain('day');
-    });
+            SubString = str3.substring(1, 4);
+            expect(SubString).toBe("ell");
 
-    it('value is string equally "sun day"', function() {
-        expect(addition('sun ', 'day')).toMatch(/sun day/);
-    });
+            SubString = str3.substring(4, 1);
+            expect(SubString).toBe("ell");
 
-    it('value is  less than 5 ', function() {
-        expect(addition(1, 3)).toBeLessThan(5);
-    });
+            SubString = str3.substring(-3);
+            expect(SubString).toBe("Hello World");
 
-    it('value is less or equal 10 ', function() {
-        expect(addition(5, 5)).toBeLessThanOrEqual(10);
-    });
+        });
 
-    it('value is more than 5 ', function() {
-        expect(addition(5, 5)).toBeGreaterThan(5);
-    });
+        it('Метод trim()', function(){
+            str4 = " Hello "
+            expect(str4.trim()).toBe("Hello");
+        });
+
+
+    });   
+    describe('Операции со строками', function (){
+
+        it('Определение длины строки Свойство length', function () {
+            expect(str1.length).not.toBe(5);
+        });
+
+        describe('Сложение строк', function (){
+            
+            it("Сложение строк + ", function() {
+                str = str1 + str2 + "!" + 2018;
+                expect(str).toBe("Hello World!2018");
+            });
+
+            it("Сложение строк с помощью метода concat()", function() {
+                expect(str1.concat(str2, "!")).toBe("Hello World!");
+            });
+
+        });
+       
+
+        describe('Сравнение строк', function (){
+
+            it('Сравнение строк > <', function () {
+                expect(str2 > str1).toBeTruthy();
+                expect(str1 < "hello").toBeTruthy();
+            });
+
+            it('Метод localeCompare()', function () {
+                expect(str1.localeCompare(str2)).toBe(-1);
+                expect(str1.localeCompare('Hello ')).toBe(0);
+                expect(str2.localeCompare(str1)).toBe(1);
+            });
+
+        });
+
+        it("Изменение строк", function() {
+
+            var s = "You";
+            s = s + " " + "Win"
+            expect(s).toBe("You Win");
+
+            s[1] = "y";
+            expect(s).not.toBe("you Win");
+        });
+
+        describe("Изменение регистра строк", function() {
+            it('Метод toLowerCase()', function(){
+                expect(str3.toLowerCase ()).toBe("hello world");
+            });
     
-    it('value is more or equal 0 ', function() {
-        expect(addition(5, 5)).toBeGreaterThan(0);
+            it('Метод toUpperCase()', function(){
+                expect(str3.toUpperCase()).toBe("HELLO WORLD");
+            });
+    
+        });
+
     });
+
+
+
+    describe('Доступ к символам строки', function (){
+
+        it('Доступ через []', function () {
+            expect(str1[1]).toBe('e');
+        });
+
+        it('Метод charAt()', function () {
+            expect(str1.charAt(3)).toBe('l');
+        });
+
+    });
+
+    describe('Поиск подстроки', function (){
+
+        it('Метод indexOf()', function () {
+            expect(str3.indexOf("l")).toBe(2);
+            expect(str3.indexOf("l", 5)).toBe(9);
+            expect(str3.indexOf("L")).toBe(-1);
+        });
+
+        it('Метод lastIndexOf()', function () {
+            expect(str3.lastIndexOf("l")).toBe(9);
+            expect(str3.lastIndexOf("L")).toBe(-1);
+        });
+
+        it('Метод includes()', function () {
+            expect(str3.includes("lo Wo")).toBeTruthy();
+        });
+
+    });
+
+    it('Создание массива из строки  с помощью метода split()', function(){
+        expect(str3.split()).toEqual(["Hello World"]);
+        expect(str3.split(" ")).toEqual(["Hello", "World"]);
+        expect(str2.split("")).toEqual(["W", "o", "r", "l", "d"]);
+        expect(str2.split("", 3)).toEqual(["W", "o", "r"]);
+        expect(str2.split("o")).toEqual(["W", "rld"]);
+    });
+
+    describe('Проверка на окончание или начало строки символами другой строки', function(){
+
+        it('Метод endsWith()', function () {
+            expect(str3.endsWith("ld")).toBeTruthy();
+            expect(str3.endsWith("ld", 5)).toBeFalsy();
+            expect(str2.endsWith("ld", 5)).toBeTruthy();
+        });
+        
+        it('Метод startsWith()', function(){
+            expect(str3.startsWith("Hello")).toBeTruthy();
+            expect(str1.startsWith("hello")).toBeFalsy();
+            expect(str1.startsWith("Hello", 2)).toBeFalsy();
+        });
+
+    });
+
+        
+       
+
+
+        
+
     
 });
-
-describe('Test for isNull', function () {
-
-    it('must return true ', function() {
-        expect(isNull(null)).toBe(true);
-    });
-
-    it('the result not undefined ', function() {
-        expect(isNull(null)).toBeDefined();
-    });
-
-    it('value is Null ', function() {
-        expect(isNull(null)).toBeTruthy();
-    });
-
-    it('value is not Null ', function() {
-        expect(isNull(5)).toBeFalsy();
-    });
-   
-});
-
-describe('Test for getGreeting', function () {
-
-    it('value is not undefined ', function() {
-        expect(getGreeting('World')).toBeDefined();
-    });
-    
-    it('value is not Null ', function() {
-        expect(getGreeting('World')).not.toBeNull();
-    });
-
-    it('value is not NaN ', function() {
-        expect(getGreeting('World')).not.toBeNaN();
-    });
-
-    it('value is string contain "Hello"', function() {
-        expect(getGreeting('World')).toContain('Hello');
-    });
-
-    it('value is string equally "Hello World"', function() {
-        expect(getGreeting('World')).toMatch(/Hello World/);
-    });
-
-    it('the sum is tring "Hello World"', function() {
-        expect(getGreeting('World')).toBe("Hello World");
-    });
-
-});
-
-describe('Test for parseBoolean', function () {
-
-    it('must return true for " TruE" string', function () {
-        expect(parseBoolean(' TruE')).toBe(true);
-    });
-
-    it('not must return true for " TruE2" string', function () {
-        expect(parseBoolean(' TruE2')).not.toBe(true);
-    });
-
-    it('not return true for " ruE" string', function () {
-        expect(parseBoolean(' ruE')).toBeFalsy();
-    });
-
-    it('return  true for "T ru e " string', function () {
-        expect(parseBoolean(' truE')).not.toBeFalsy();
-    });
-
-    it('not return true  for "   r ue 1" ', function () {
-        expect(parseBoolean('T r ue ')).not.toBeTruthy();
-    });
-
-});
-
-describe('Test for getPathByHash', function () {
-
-    it('must return ["user", "create"] for "user/create" hash string', function () {
-        expect(getPathByHash('user/create')).toEqual(['user', 'create']);
-    });
-
-    it('the result  of the function not equal ["name", "max"]', function () {
-        expect(getPathByHash('user/create')).not.toEqual(['name', 'max']);    
-    });
-
-    it('the result  of the function contains "user" ', function () {
-        expect(getPathByHash('user/create')).toContain('user');
-    });
-
-    it('the result  of the function not contains "name" ', function () {
-        expect(getPathByHash('user/create')).not.toContain('name');
-    });
-
-    it('the result  of the function not null ', function () {
-        expect(getPathByHash('user/create')).not.toBeNull();
-    });
-
-    it('the result  of the function not undefined ', function () {
-        expect(getPathByHash('user/create')).toBeDefined();
-    });
-    
-});
-

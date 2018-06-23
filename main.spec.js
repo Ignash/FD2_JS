@@ -1,200 +1,221 @@
-describe('СТРОКИ', function () {
+describe('Дата и время', function() {
+
+    it ('Создание даты', function(){
+
+        var day = new Date();
+        expect(typeof day).toBe('object');
+
+    });
+
+    it('Вывод даты', function(){
+
+        var day = new Date(2011, 10, 12, 23, 45);
+
+        var DayString = day.toString();
+        expect(DayString).toEqual("Sat Nov 12 2011 23:45:00 GMT+0300 (Саудовская Аравия, стандартное время)");
+
+        var DateString = day.toDateString();
+        expect(DateString).toEqual("Sat Nov 12 2011");
+
+        var TimeString = day.toTimeString();
+        expect(TimeString).toEqual('23:45:00 GMT+0300 (Саудовская Аравия, стандартное время)');
+
+        var option = {
+            era: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            weekday: 'long',
+            timezone: 'UTC',
+            hour: undefined,
+            minute: undefined,
+            second: undefined,
+            timeZoneName:'short'
+            };
+        
+        
+        expect(day.toLocaleString('ru', option)).toEqual('суббота, 12 ноября 2011 г. от Рождества Христова, GMT+3');
+        
+
+    });
+
+    describe ('Компоненты даты', function(){
+
+        var myDay = new Date(2011, 9, 30, 2, 30, 50, 320);
+
+        it('Год', function(){
+            var year = myDay.getFullYear();
+            expect(year).toBe(2011);
+        });
+
+        it('Месяц', function(){
+
+            var myMonth = myDay.getMonth();
+            expect(myMonth).toBe(9);
     
-    var str1 = "Hello ",
-        str2 = "World",
-        str3 = "Hello World";
-
-    describe('Создание строк ', function (){
-
-        it("Создание строек с помощью \"\" и \'\' ", function() {
-            var s1 = "man",
-                s2 = 'gerl';
-            expect(typeof s1, s2).toBe("string");
-        });
-
-        it('Метод repeat()', function () {
-
-            var RepEt = str1.repeat(2);
-            expect(RepEt).toBe("Hello Hello ");
+            var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            expect(months[myMonth]).toBe('October');
 
         });
 
-        it('Метод replace()', function () {
+        it('Дата', function(){
+
+            var date = myDay.getDate();
+            expect(date).toBe(30);
             
-            var RePlace = str3.replace("Hello", str2);
-            expect(RePlace).toBe("World World");
-
         });
 
-        it('Метод slice()', function(){
+        it('Час', function(){
 
-            var mySlice = str1.slice(1, 5);
-            expect(mySlice).toBe("ello");
-
-            mySlice = str1.slice(-2, -1);
-            expect(mySlice).toBe("o");
-
-            mySlice = str1.slice(0);
-            expect(mySlice).toBe("Hello ");
-
-            mySlice = str1.slice(2);
-            expect(mySlice).toBe("llo ");
-
-        });
-
-        it('Метод substr()', function(){
-
-            var SubStr = str3.substr(2);
-            expect(SubStr).toBe("llo World");
-
-            SubStr = str3.substr(2, 2);
-            expect(SubStr).toBe("ll");
+            var hours = myDay.getHours();
+            expect(hours).toBe(2);
 
         });
         
-        it('Метод substring()', function(){
+        it('Минуты', function(){
 
-            var SubString = str3.substring(2);
-            expect(SubString).toBe("llo World");
-
-            SubString = str3.substring(1, 4);
-            expect(SubString).toBe("ell");
-
-            SubString = str3.substring(4, 1);
-            expect(SubString).toBe("ell");
-
-            SubString = str3.substring(-3);
-            expect(SubString).toBe("Hello World");
+            var minutes = myDay.getMinutes();
+            expect(minutes).toBe(30)
 
         });
 
-        it('Метод trim()', function(){
-            str4 = " Hello "
-            expect(str4.trim()).toBe("Hello");
+        it('Секунды', function(){
+
+            var seconds = myDay.getSeconds();
+            expect(seconds).toBe(50)
+
         });
 
+        it('Миллисекунды', function(){
 
-    });   
-    describe('Операции со строками', function (){
+            var milliseconds = myDay.getMilliseconds();
+            expect(milliseconds).toBe(320)
 
-        it('Определение длины строки Свойство length', function () {
-            expect(str1.length).not.toBe(5);
+        });
+        
+        it('День', function(){
+
+            var day = myDay.getDay();
+            expect(day).toBe(0);
+
+            var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            expect(days[day]).toBe('Sunday');
+
         });
 
-        describe('Сложение строк', function (){
+        it('Число миллисекунд с 1 января 1970года ', function(){
+
+            var time = myDay.getTime();
+            expect(time).toBe(1319931050320);
+
+        });
+
+        it('Разница между указанным временем и UTC-временем, в минутах', function(){
+
+            var time = myDay.getTimezoneOffset();
+            expect(time).toBe(-180);
+
+        });
+    });
+    describe('Установка компонентов', function(){
+
+
+        it('Проверка', function(){
+
+            var myDay = new Date(2011, 9, 30, 2, 30, 50, 320);
+
+
+            myDayString = myDay.toString();
+            expect(myDayString).toEqual('Sun Oct 30 2011 02:30:50 GMT+0300 (Саудовская Аравия, стандартное время)');
             
-            it("Сложение строк + ", function() {
-                str = str1 + str2 + "!" + 2018;
-                expect(str).toBe("Hello World!2018");
-            });
-
-            it("Сложение строк с помощью метода concat()", function() {
-                expect(str1.concat(str2, "!")).toBe("Hello World!");
-            });
-
         });
-       
 
-        describe('Сравнение строк', function (){
+        it('Установка года', function(){
 
-            it('Сравнение строк > <', function () {
-                expect(str2 > str1).toBeTruthy();
-                expect(str1 < "hello").toBeTruthy();
-            });
+            var myDay = new Date(2011, 9, 30, 2, 30, 50, 320);
 
-            it('Метод localeCompare()', function () {
-                expect(str1.localeCompare(str2)).toBe(-1);
-                expect(str1.localeCompare('Hello ')).toBe(0);
-                expect(str2.localeCompare(str1)).toBe(1);
-            });
+
+            myDay.setFullYear(1999);
+            expect(myDay.toString()).toEqual('Sat Oct 30 1999 02:30:50 GMT+0300 (Саудовская Аравия, стандартное время)');
+
+            myDay.setFullYear(1999, 10, 5);
+            expect(myDay.toString()).toEqual('Fri Nov 05 1999 02:30:50 GMT+0300 (Саудовская Аравия, стандартное время)');
 
         });
 
-        it("Изменение строк", function() {
+        it('Установка месяца', function(){
 
-            var s = "You";
-            s = s + " " + "Win"
-            expect(s).toBe("You Win");
+            var myDay = new Date(2011, 9, 30, 2, 30, 50, 320);
 
-            s[1] = "y";
-            expect(s).not.toBe("you Win");
+
+            myDay.setMonth(5);
+            expect(myDay.toString()).toEqual('Thu Jun 30 2011 02:30:50 GMT+0300 (Саудовская Аравия, стандартное время)');
+
+            myDay.setMonth(5, 15);
+            expect(myDay.toString()).toEqual('Wed Jun 15 2011 02:30:50 GMT+0300 (Саудовская Аравия, стандартное время)');
+
         });
 
-        describe("Изменение регистра строк", function() {
-            it('Метод toLowerCase()', function(){
-                expect(str3.toLowerCase ()).toBe("hello world");
-            });
-    
-            it('Метод toUpperCase()', function(){
-                expect(str3.toUpperCase()).toBe("HELLO WORLD");
-            });
-    
+        it('Установка даты', function(){
+
+            var myDay = new Date(2011, 9, 30, 2, 30, 50, 320);
+            myDay.setDate(5);
+            expect(myDay.toString()).toEqual('Wed Oct 05 2011 02:30:50 GMT+0300 (Саудовская Аравия, стандартное время)');
+
         });
 
-    });
+        it('Установка часа', function(){
+
+            var myDay = new Date(2011, 9, 30, 2, 30, 50, 320);
+            myDay.setHours(6);
+            expect(myDay.toString()).toEqual('Sun Oct 30 2011 06:30:50 GMT+0300 (Саудовская Аравия, стандартное время)');
+
+            myDay.setHours(6, 40, 15);
+            expect(myDay.toString()).toEqual('Sun Oct 30 2011 06:40:15 GMT+0300 (Саудовская Аравия, стандартное время)');
 
 
-
-    describe('Доступ к символам строки', function (){
-
-        it('Доступ через []', function () {
-            expect(str1[1]).toBe('e');
         });
 
-        it('Метод charAt()', function () {
-            expect(str1.charAt(3)).toBe('l');
+        it('Установка минут', function(){
+
+            var myDay = new Date(2011, 9, 30, 2, 30, 50, 320);
+            myDay.setMinutes(25);
+            expect(myDay.toString()).toEqual('Sun Oct 30 2011 02:25:50 GMT+0300 (Саудовская Аравия, стандартное время)');
+
+            myDay.setMinutes(25, 20, 20);
+            expect(myDay.toString()).toEqual('Sun Oct 30 2011 02:25:20 GMT+0300 (Саудовская Аравия, стандартное время)');
+
+
         });
 
-    });
+        it('Установка секунд', function(){
 
-    describe('Поиск подстроки', function (){
+            var myDay = new Date(2011, 9, 30, 2, 30, 50, 320);
+            myDay.setSeconds(5);
+            expect(myDay.toString()).toEqual('Sun Oct 30 2011 02:30:05 GMT+0300 (Саудовская Аравия, стандартное время)');
 
-        it('Метод indexOf()', function () {
-            expect(str3.indexOf("l")).toBe(2);
-            expect(str3.indexOf("l", 5)).toBe(9);
-            expect(str3.indexOf("L")).toBe(-1);
+
         });
 
-        it('Метод lastIndexOf()', function () {
-            expect(str3.lastIndexOf("l")).toBe(9);
-            expect(str3.lastIndexOf("L")).toBe(-1);
-        });
+        it('Установка всей даты по миллисекундам', function(){
 
-        it('Метод includes()', function () {
-            expect(str3.includes("lo Wo")).toBeTruthy();
+            var myDay = new Date(2011, 9, 30, 2, 30, 50, 320);
+            myDay.setDate(5);
+            expect(myDay.toString()).toEqual('Wed Oct 05 2011 02:30:50 GMT+0300 (Саудовская Аравия, стандартное время)');
+
         });
 
     });
 
-    it('Создание массива из строки  с помощью метода split()', function(){
-        expect(str3.split()).toEqual(["Hello World"]);
-        expect(str3.split(" ")).toEqual(["Hello", "World"]);
-        expect(str2.split("")).toEqual(["W", "o", "r", "l", "d"]);
-        expect(str2.split("", 3)).toEqual(["W", "o", "r"]);
-        expect(str2.split("o")).toEqual(["W", "rld"]);
+    it('Автоисправление даты', function(){
+
+        var day = new Date(2015, 2, 30);
+        expect(day.toString()).toEqual('Mon Mar 30 2015 00:00:00 GMT+0300 (Саудовская Аравия, стандартное время)');
+
+        day.setDate(day.getDate() + 2);
+        expect(day.toString()).toEqual('Wed Apr 01 2015 00:00:00 GMT+0300 (Саудовская Аравия, стандартное время)');
     });
-
-    describe('Проверка на окончание или начало строки символами другой строки', function(){
-
-        it('Метод endsWith()', function () {
-            expect(str3.endsWith("ld")).toBeTruthy();
-            expect(str3.endsWith("ld", 5)).toBeFalsy();
-            expect(str2.endsWith("ld", 5)).toBeTruthy();
-        });
-        
-        it('Метод startsWith()', function(){
-            expect(str3.startsWith("Hello")).toBeTruthy();
-            expect(str1.startsWith("hello")).toBeFalsy();
-            expect(str1.startsWith("Hello", 2)).toBeFalsy();
-        });
-
-    });
-
-        
-       
-
-
-        
 
     
 });
+

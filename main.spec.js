@@ -1,221 +1,139 @@
-describe('Дата и время', function() {
+describe('MatrixUtil', function () {
+    describe('create', function () {
+        it('simple', function () {
+            var result = MatrixUtil.create(2, 2);
 
-    it ('Создание даты', function(){
-
-        var day = new Date();
-        expect(typeof day).toBe('object');
-
-    });
-
-    it('Вывод даты', function(){
-
-        var day = new Date(2011, 10, 12, 23, 45);
-
-        var DayString = day.toString();
-        expect(DayString).toEqual("Sat Nov 12 2011 23:45:00 GMT+0300 (Саудовская Аравия, стандартное время)");
-
-        var DateString = day.toDateString();
-        expect(DateString).toEqual("Sat Nov 12 2011");
-
-        var TimeString = day.toTimeString();
-        expect(TimeString).toEqual('23:45:00 GMT+0300 (Саудовская Аравия, стандартное время)');
-
-        var option = {
-            era: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            weekday: 'long',
-            timezone: 'UTC',
-            hour: undefined,
-            minute: undefined,
-            second: undefined,
-            timeZoneName:'short'
-            };
-        
-        
-        expect(day.toLocaleString('ru', option)).toEqual('суббота, 12 ноября 2011 г. от Рождества Христова, GMT+3');
-        
-
-    });
-
-    describe ('Компоненты даты', function(){
-
-        var myDay = new Date(2011, 9, 30, 2, 30, 50, 320);
-
-        it('Год', function(){
-            var year = myDay.getFullYear();
-            expect(year).toBe(2011);
+            expect(result).toEqual([
+                [undefined, undefined],
+                [undefined, undefined]
+            ]);
         });
 
-        it('Месяц', function(){
+        it('with one argument', function () {
+            var result = MatrixUtil.create(3);
 
-            var myMonth = myDay.getMonth();
-            expect(myMonth).toBe(9);
-    
-            var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-            expect(months[myMonth]).toBe('October');
-
+            expect(result).toEqual([
+                [undefined, undefined, undefined],
+                [undefined, undefined, undefined],
+                [undefined, undefined, undefined]
+            ]);
         });
 
-        it('Дата', function(){
+        it('with a default value', function () {
+            var result = MatrixUtil.create(3, 3, true);
 
-            var date = myDay.getDate();
-            expect(date).toBe(30);
+            expect(result).toEqual([
+                [true, true, true],
+                [true, true, true],
+                [true, true, true]
+            ]);
+        });
+    });
+
+    it('toString', function () {
+        var toStringForMatrixBooleanValue = MatrixUtil.toString(function (item) {
+                return item ? 'x' : 'o';
+            }),
+            matrix = MatrixUtil.create(2, 2, true);
+
+        expect(toStringForMatrixBooleanValue(matrix)).toEqual(
+            'xx\n' +
+            'xx'
+        );
+
+        matrix[0][0] = false;
+        matrix[1][1] = false;
+
+        expect(toStringForMatrixBooleanValue(matrix)).toEqual(
+            'ox\n' +
+            'xo'
+        );
+    });
+
+    describe('setValueForSector', function () {
+        it('set for all, left and top part', function () {
+            var matrix = MatrixUtil.create(3, 3, true),
+                setValueForMyMatrix = MatrixUtil.setValueForSector(matrix),
+                setValueForAll = setValueForMyMatrix(0, 0, 2, 2),
+                setValueForLeftPart = setValueForMyMatrix(0, 0, 2, 0);
+                setValueForTopPart = setValueForMyMatrix(0, 0, 0, 2);
+
+                setValueForAll(false);
+
+                expect(matrix).toEqual([
+                    [false, false, false],
+                    [false, false, false],
+                    [false, false, false]
+                ]);
+
+                setValueForLeftPart(true);
+
+                expect(matrix).toEqual([
+                    [true, false, false],
+                    [true, false, false],
+                    [true, false, false]
+                ]);
+
+                setValueForTopPart(true);
+
+                expect(matrix).toEqual([
+                    [true, true,  true],
+                    [true, false, false],
+                    [true, false, false]
+                ]);
+        });
+    });
+
+    describe('My test for setValueForSector', function () {
+        
             
-        });
-
-        it('Час', function(){
-
-            var hours = myDay.getHours();
-            expect(hours).toBe(2);
-
-        });
-        
-        it('Минуты', function(){
-
-            var minutes = myDay.getMinutes();
-            expect(minutes).toBe(30)
-
-        });
-
-        it('Секунды', function(){
-
-            var seconds = myDay.getSeconds();
-            expect(seconds).toBe(50)
-
-        });
-
-        it('Миллисекунды', function(){
-
-            var milliseconds = myDay.getMilliseconds();
-            expect(milliseconds).toBe(320)
-
-        });
-        
-        it('День', function(){
-
-            var day = myDay.getDay();
-            expect(day).toBe(0);
-
-            var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-            expect(days[day]).toBe('Sunday');
-
-        });
-
-        it('Число миллисекунд с 1 января 1970года ', function(){
-
-            var time = myDay.getTime();
-            expect(time).toBe(1319931050320);
-
-        });
-
-        it('Разница между указанным временем и UTC-временем, в минутах', function(){
-
-            var time = myDay.getTimezoneOffset();
-            expect(time).toBe(-180);
-
-        });
-    });
-    describe('Установка компонентов', function(){
-
-
-        it('Проверка', function(){
-
-            var myDay = new Date(2011, 9, 30, 2, 30, 50, 320);
-
-
-            myDayString = myDay.toString();
-            expect(myDayString).toEqual('Sun Oct 30 2011 02:30:50 GMT+0300 (Саудовская Аравия, стандартное время)');
             
-        });
 
-        it('Установка года', function(){
+            it('value in the middle matrix', function () {
+                var matrix = MatrixUtil.create(4, 4),
+                    setValueForMyMatrix = MatrixUtil.setValueForSector(matrix),
+                    setValueForMiddle = setValueForMyMatrix(1, 1, 2, 2);
 
-            var myDay = new Date(2011, 9, 30, 2, 30, 50, 320);
+                setValueForMiddle(null);
 
+                expect(matrix).toEqual([
+                    [undefined, undefined,  undefined, undefined],
+                    [undefined, null,  null, undefined],
+                    [undefined, null,  null, undefined],
+                    [undefined, undefined,  undefined, undefined]
+                ]);
+            });
 
-            myDay.setFullYear(1999);
-            expect(myDay.toString()).toEqual('Sat Oct 30 1999 02:30:50 GMT+0300 (Саудовская Аравия, стандартное время)');
+            it('value in the left top part', function () {
+                var matrix = MatrixUtil.create(4, 4),
+                    setValueForMyMatrix = MatrixUtil.setValueForSector(matrix),
+                    setValueForLeftTop = setValueForMyMatrix(0, 0, 2, 2);
 
-            myDay.setFullYear(1999, 10, 5);
-            expect(myDay.toString()).toEqual('Fri Nov 05 1999 02:30:50 GMT+0300 (Саудовская Аравия, стандартное время)');
+                    setValueForLeftTop('YES');
 
-        });
+                expect(matrix).toEqual([
+                    ['YES', 'YES',  'YES', undefined],
+                    ['YES', 'YES',  'YES', undefined],
+                    ['YES', 'YES',  'YES', undefined],
+                    [undefined, undefined,  undefined, undefined]
+                ]);
+            });
 
-        it('Установка месяца', function(){
+            it('value in the center', function () {
+                var matrix = MatrixUtil.create(3, 4, 'NO'),
+                    setValueForMyMatrix = MatrixUtil.setValueForSector(matrix),
+                    setValueForCenter = setValueForMyMatrix(0, 1, 2, 2);
 
-            var myDay = new Date(2011, 9, 30, 2, 30, 50, 320);
+                    setValueForCenter('YES');
 
-
-            myDay.setMonth(5);
-            expect(myDay.toString()).toEqual('Thu Jun 30 2011 02:30:50 GMT+0300 (Саудовская Аравия, стандартное время)');
-
-            myDay.setMonth(5, 15);
-            expect(myDay.toString()).toEqual('Wed Jun 15 2011 02:30:50 GMT+0300 (Саудовская Аравия, стандартное время)');
-
-        });
-
-        it('Установка даты', function(){
-
-            var myDay = new Date(2011, 9, 30, 2, 30, 50, 320);
-            myDay.setDate(5);
-            expect(myDay.toString()).toEqual('Wed Oct 05 2011 02:30:50 GMT+0300 (Саудовская Аравия, стандартное время)');
-
-        });
-
-        it('Установка часа', function(){
-
-            var myDay = new Date(2011, 9, 30, 2, 30, 50, 320);
-            myDay.setHours(6);
-            expect(myDay.toString()).toEqual('Sun Oct 30 2011 06:30:50 GMT+0300 (Саудовская Аравия, стандартное время)');
-
-            myDay.setHours(6, 40, 15);
-            expect(myDay.toString()).toEqual('Sun Oct 30 2011 06:40:15 GMT+0300 (Саудовская Аравия, стандартное время)');
-
-
-        });
-
-        it('Установка минут', function(){
-
-            var myDay = new Date(2011, 9, 30, 2, 30, 50, 320);
-            myDay.setMinutes(25);
-            expect(myDay.toString()).toEqual('Sun Oct 30 2011 02:25:50 GMT+0300 (Саудовская Аравия, стандартное время)');
-
-            myDay.setMinutes(25, 20, 20);
-            expect(myDay.toString()).toEqual('Sun Oct 30 2011 02:25:20 GMT+0300 (Саудовская Аравия, стандартное время)');
+                expect(matrix).toEqual([
+                    ['NO', 'YES',  'YES', 'NO'],
+                    ['NO', 'YES',  'YES', 'NO'],
+                    ['NO', 'YES',  'YES', 'NO'],
+                ]);
+            });
 
 
-        });
-
-        it('Установка секунд', function(){
-
-            var myDay = new Date(2011, 9, 30, 2, 30, 50, 320);
-            myDay.setSeconds(5);
-            expect(myDay.toString()).toEqual('Sun Oct 30 2011 02:30:05 GMT+0300 (Саудовская Аравия, стандартное время)');
-
-
-        });
-
-        it('Установка всей даты по миллисекундам', function(){
-
-            var myDay = new Date(2011, 9, 30, 2, 30, 50, 320);
-            myDay.setDate(5);
-            expect(myDay.toString()).toEqual('Wed Oct 05 2011 02:30:50 GMT+0300 (Саудовская Аравия, стандартное время)');
-
-        });
-
+            
     });
-
-    it('Автоисправление даты', function(){
-
-        var day = new Date(2015, 2, 30);
-        expect(day.toString()).toEqual('Mon Mar 30 2015 00:00:00 GMT+0300 (Саудовская Аравия, стандартное время)');
-
-        day.setDate(day.getDate() + 2);
-        expect(day.toString()).toEqual('Wed Apr 01 2015 00:00:00 GMT+0300 (Саудовская Аравия, стандартное время)');
-    });
-
-    
-});
-
+})

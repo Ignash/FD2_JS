@@ -1,7 +1,7 @@
 (function (AppUtil) {
 
     var debounceBlockElements = getBlockElemets('blockWithDebounce'),
-        setValueInDebounceSpan = AppUtil.debounce(getFormatedName, 1500, function (value) {
+        setValueInDebounceSpan = AppUtil.debounce(getFormatedName, 500, function (value) {
             debounceBlockElements.span.text(value || '-');
         }),
         throttleBlockElements = getBlockElemets('blockWithThrottle'),

@@ -1,47 +1,64 @@
-(function (global) {
-    'use strict';
+(function (AppUtil) {
 
-    var MatrixUtil = {};
+    var debounceBlockElements = getBlockElemets('blockWithDebounce'),
+        setValueInDebounceSpan = AppUtil.debounce(getFormatedName, 1500, function (value) {
+            debounceBlockElements.span.text(value || '-');
+        }),
+        throttleBlockElements = getBlockElemets('blockWithThrottle'),
+        setValueInThrottleSpan = AppUtil.throttle(getFormatedName, 1000, function (value) {
+            throttleBlockElements.span.text(value || '-');
+        });
 
-    global.MatrixUtil = MatrixUtil;
-    
-    MatrixUtil.create = function (height, width, value) {
-        var result = new Array(height),
-            line;
+    setInputListener(debounceBlockElements.input, setValueInDebounceSpan);
+    setInputListener(throttleBlockElements.input, setValueInThrottleSpan);
 
-        width = width || height;
+    function setInputListener(element, callback) {
+        element.on('input', function (event) {
+            var input = element.val();
 
-        for (var index = 0 ; height > index; index++) {
-            line = new Array(width);
-            line.fill(value);
+            callback(input);
+        });
+    }
 
-            result[index] = line;
+    function getBlockElemets(blockId) {
+        var blockElement = $('#' + blockId);
+
+        return {
+            input: blockElement.find('input'),
+            span: blockElement.find('span')
+        }
+    }
+
+    function getFormatedName(input) {
+        return getSeparateWords(input)
+            .map(toUpperFirstLetter)
+            .join(' ');
+    }
+
+    function getSeparateWords(string) {
+        var result;
+
+        if (string) {
+            result = string.split(' ').filter(function (word) {
+                return !!word;
+            });
+        } else {
+            result = [];
         }
 
         return result;
-    };
-
-    MatrixUtil.toString = function (valueConverter) {
-        return function (matrix) {
-            return matrix.map(function (line) {
-                return line.map(function (item) {
-                    return valueConverter(item);
-                }).join('');
-            }).join('\n');
-        };
     }
 
-    MatrixUtil.setValueForSector = function (matrix) {
-        return function (aY, aX, bY, bX) {
-            return function (value) {
-            
-                    for (var indexY = aY; bY >= indexY; indexY++) {
-                        matrix[indexY].fill(value, aX, bX+1);
-                    }
-                
-            };
-        };
-    };
+    function toUpperFirstLetter(string) {
+        var result;
 
+        if (string) {
+            result = string.charAt(0).toUpperCase() +
+                string.slice(1).toLowerCase();
+        } else {
+            result = '';
+        }
 
-})(typeof module !== 'undefined' ? module.exports : window);
+        return result;
+    }
+})(AppUtil);

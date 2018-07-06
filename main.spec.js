@@ -24,11 +24,10 @@ describe('regexp', function () {
         expect(AppUtil.isTimeIn12HourClock('11:59 am')).toBeTruthy();
         expect(AppUtil.isTimeIn12HourClock('11:59 pm')).toBeTruthy();
         expect(AppUtil.isTimeIn12HourClock('03:26 pm')).toBeTruthy();
-        expect(AppUtil.isTimeIn12HourClock('10:26 pm')).toBeTruthy();
 
         expect(AppUtil.isTimeIn12HourClock('13:00 pm')).toBeFalsy();
         expect(AppUtil.isTimeIn12HourClock('12:64 am')).toBeFalsy();
-        expect(AppUtil.isTimeIn12HourClock('11:92 am')).toBeFalsy();
+        expect(AppUtil.isTimeIn12HourClock('11 :92 am')).toBeFalsy();
         expect(AppUtil.isTimeIn12HourClock('  11:59 pm')).toBeFalsy();
     });
 

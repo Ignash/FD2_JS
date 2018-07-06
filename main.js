@@ -16,12 +16,16 @@
     };
 
     AppUtil.isTimeIn12HourClock = function (value) {
-        var firstNamber = value.match(/\d/),
+        var firstNamber = value.match(/\d/g),
             result;
         if (+firstNamber[0] === 0){
             result = /^0[0-9]:[0-5][0-9]\s(am|pm)$/.test(value);
         } else {
-            result = /^1[0-2]:[0-5][0-9]\s(am|pm)$/.test(value)
+            if (+firstNamber[0] === 1 && +firstNamber[1] === 2) {
+                result = /^12:00\s(am|pm)$/.test(value)
+            } else {
+                result = /^1[01]:[0-5][0-9]\s(am|pm)$/.test(value)
+            }
         }
         // TODO need improve code here
         return result;

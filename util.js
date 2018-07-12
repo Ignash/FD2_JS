@@ -1,15 +1,15 @@
 (function (global) {
     'use strict';
 
-    var AppUtil = {};
+    const AppUtil = {};
 
     global.AppUtil = AppUtil;
 
-    AppUtil.debounce = function (payloadFunction, delayMs, callback, onError) {
-        var timerId;
+    AppUtil.debounce = (payloadFunction, delayMs, callback, onError) => {
+        let timerId;
 
         return function () {
-            var params = arguments;
+            let params = arguments;
 
             // TODO need improve code here
             
@@ -21,7 +21,7 @@
             applyPayloadFunction();
 
             function applyPayloadFunction() {
-                var result;
+                let result;
 
                  try {
                     result = payloadFunction.apply(null, params);
@@ -38,8 +38,8 @@
         };
     };
 
-    AppUtil.throttle = function (payloadFunction, delayMs, callback, onError) {
-        var intervalId,
+    AppUtil.throttle = (payloadFunction, delayMs, callback, onError) => {
+        let intervalId,
             lastParamsApplied,
             params;
 
@@ -50,7 +50,7 @@
             if (intervalId === undefined) {
                 applyPayloadFunction();
 
-                intervalId = setInterval(function () {
+                intervalId = setInterval( () => {
                     if (!lastParamsApplied) {
                         applyPayloadFunction();
                     } else {
@@ -62,7 +62,7 @@
             }
 
             function applyPayloadFunction() {
-                var result;
+                let result;
 
                 try {
                     result = payloadFunction.apply(null, params);

@@ -1,60 +1,50 @@
-(function (AppUtil) {
+(function () {
+    const loadDataButtonElement = document.getElementById('loadData'),
+          dataContainerElement = document.getElementById('dataContainer');
 
-    const debounceBlockElements = getBlockElemets('blockWithDebounce'),
-        setValueInDebounceSpan = AppUtil.debounce(getFormatedName, 500, value =>
-            debounceBlockElements.span.text(value || '-')),
-        throttleBlockElements = getBlockElemets('blockWithThrottle'),
-        setValueInThrottleSpan = AppUtil.throttle(getFormatedName, 1000, value => 
-            throttleBlockElements.span.text(value || '-'));
+    loadDataButtonElement.addEventListener('click', () => {
 
-    setInputListener(debounceBlockElements.input, setValueInDebounceSpan);
-    setInputListener(throttleBlockElements.input, setValueInThrottleSpan);
+        function creatDataBlockElement(file) {
 
-    function setInputListener(element, callback) {
-        element.on('input', (event) => {
-            const input = element.val();
+            for (let user in file) {
+                const dataBlockElement = createUserDataBlockElement(file[user]);
+                dataContainerElement.appendChild(dataBlockElement);
+            }
 
-            callback(input);
+            // file.forEach(item => {
+            //     const dataBlockElement = createUserDataBlockElement(item);
+            //     dataContainerElement.appendChild(dataBlockElement);
+            // });
+        };
+
+        loadData('./users.json', creatDataBlockElement);
+    });
+
+    function loadData(url, callback) {
+        const request = new XMLHttpRequest();
+
+        request.open('get', url);
+        request.addEventListener('load', () => {
+            const result = JSON.parse(request.response);
+
+            callback(result);
         });
+
+        request.send();
     }
 
-    function getBlockElemets(blockId) {
-        const blockElement = $(`#${blockId}`);
+    function createUserDataBlockElement(user) {
+        const result = document.createElement('div'),
+              nameElement = document.createElement('span'),
+              ageElement = document.createElement('span');
 
-        return {
-            input: blockElement.find('input'),
-            span: blockElement.find('span')
-        }
-    }
+        nameElement.textContent = user.name;
+        ageElement.textContent = user.age;
 
-    function getFormatedName(input) {
-        return getSeparateWords(input)
-            .map(toUpperFirstLetter)
-            .join(' ');
-    }
-
-    function getSeparateWords(string) {
-        let result;
-
-        if (string) {
-            result = string.split(' ').filter( word => !!word );
-        } else {
-            result = [];
-        }
+        result.appendChild(nameElement);
+        result.appendChild(ageElement);
 
         return result;
     }
 
-    function toUpperFirstLetter(string) {
-        let result;
-
-        if (string) {
-            result = string.charAt(0).toUpperCase() +
-                string.slice(1).toLowerCase();
-        } else {
-            result = '';
-        }
-
-        return result;
-    }
-})(AppUtil);
+})();

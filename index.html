@@ -2,25 +2,32 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Home work 13</title>
+    <title>Home work 14</title>
 
     <style>
-        #dataContainer > div > span:not(:last-child) {
-            margin-right: 20px;
+        .menu {
+            width: 100px;
+            position: absolute;
+
+            box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2);
+            padding: 5px 5px 5px 10px;
+            border-radius: 5px;
         }
 
-        #dataContainer {
-            width: 15%;
-        }
-
-        #dataContainer > div > span{
-            text-align: right;
+        .hide {
+            display: none;
         }
     </style>
 </head>
 <body>
-    <button id="loadData">Load data</button>
-    <div id="dataContainer"></div>
-    <script src="main.js"></script>
+<h1 id="h1" class="menu hide">Contextmenu</h1>
+<div id="menu" class="menu hide">
+    <div>Option 1</div>
+    <div>Option 2</div>
+    <div>Option 3</div>
+    <div>Option 4</div>
+</div>
+
+<script src="./main.js"></script>
 </body>
 </html>

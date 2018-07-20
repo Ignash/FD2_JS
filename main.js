@@ -1,50 +1,22 @@
-(function () {
-    const loadDataButtonElement = document.getElementById('loadData'),
-          dataContainerElement = document.getElementById('dataContainer');
+showMenu(menu, 100, 10);
 
-    loadDataButtonElement.addEventListener('click', () => {
+function showMenu(element, x, y) {
+    let classList = element.classList,
+        style = element.style,
+        hideClass = 'hide',
+        pxUnit = 'px';
 
-        function creatDataBlockElement(file) {
+    // style.left = x + pxUnit;
+    // style.top = y + pxUnit;
+    
+    document.addEventListener('contextmenu', (event) => event.preventDefault());
 
-            for (let user in file) {
-                const dataBlockElement = createUserDataBlockElement(file[user]);
-                dataContainerElement.appendChild(dataBlockElement);
-            }
+    document.addEventListener('contextmenu', (event) => {
+        style.left = (x + event.pageX) + pxUnit;
+        style.top = (y + event.pageY) + pxUnit;
+        classList.remove(hideClass);
+    })
 
-            // file.forEach(item => {
-            //     const dataBlockElement = createUserDataBlockElement(item);
-            //     dataContainerElement.appendChild(dataBlockElement);
-            // });
-        };
+    document.addEventListener('click', () => classList.add(hideClass))
+}
 
-        loadData('./users.json', creatDataBlockElement);
-    });
-
-    function loadData(url, callback) {
-        const request = new XMLHttpRequest();
-
-        request.open('get', url);
-        request.addEventListener('load', () => {
-            const result = JSON.parse(request.response);
-
-            callback(result);
-        });
-
-        request.send();
-    }
-
-    function createUserDataBlockElement(user) {
-        const result = document.createElement('div'),
-              nameElement = document.createElement('span'),
-              ageElement = document.createElement('span');
-
-        nameElement.textContent = user.name;
-        ageElement.textContent = user.age;
-
-        result.appendChild(nameElement);
-        result.appendChild(ageElement);
-
-        return result;
-    }
-
-})();

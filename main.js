@@ -9,9 +9,9 @@ function showMenu(element, x, y) {
     // style.left = x + pxUnit;
     // style.top = y + pxUnit;
     
-    document.addEventListener('contextmenu', (event) => event.preventDefault());
-
     document.addEventListener('contextmenu', (event) => {
+        event.preventDefault();
+
         style.left = (x + event.pageX) + pxUnit;
         style.top = (y + event.pageY) + pxUnit;
         classList.remove(hideClass);

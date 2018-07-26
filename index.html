@@ -2,32 +2,44 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Home work 14</title>
+    <title>Home work 15</title>
 
     <style>
-        .menu {
-            width: 100px;
-            position: absolute;
 
-            box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2);
-            padding: 5px 5px 5px 10px;
-            border-radius: 5px;
+        body {
+            height: 500px;
+        }
+        ul {
+            height: 100%;;
+            list-style-type: none;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
         }
 
-        .hide {
-            display: none;
+        li{
+            height: 200px;
+            width:200px;
+            background: green;
+        }
+
+        #circle {
+          
+            height: 50px;
+            width: 50px;
+            border-radius:50%;
+            background-color: aqua;
         }
     </style>
 </head>
 <body>
-<h1 id="h1" class="menu hide">Contextmenu</h1>
-<div id="menu" class="menu hide">
-    <div>Option 1</div>
-    <div>Option 2</div>
-    <div>Option 3</div>
-    <div>Option 4</div>
-</div>
-
+<ul>
+    <li class="droppable" >
+        <div id="circle" ></div>
+    </li>
+    <li class="droppable" ></li>
+</ul>
 <script src="./main.js"></script>
 </body>
 </html>

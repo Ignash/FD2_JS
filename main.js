@@ -5,7 +5,7 @@ const testValuiName = /[A-Z][a-z]+/,
 
 const formValid = document.getElementById('valid'),
     formElements = formValid.elements,
-    result = [],
+    result = [];
 
 for (let i = 0; i < formElements.length ; i++) {
 

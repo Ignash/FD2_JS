@@ -1,63 +1,86 @@
+const testValuiName = /[A-Z][a-z]+/,
+    testValuiAge = /\d+/,
+    testValueEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+    testValuePassword = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,10}/;
 
-const element = document.getElementById('circle'),
-      objElement = {};
+const formValid = document.getElementById('valid'),
+    formElements = formValid.elements,
+    result = [],
 
-element.addEventListener ('mousedown', event => {
+for (let i = 0; i < formElements.length ; i++) {
 
-    const biasX = element.getBoundingClientRect().left, 
-          biasY = element.getBoundingClientRect().top;
+    formElements[i].addEventListener('focus', event => {
+        const previousElement = event.target.previousElementSibling;
 
-    objElement.shiftY = event.pageY - biasY;
-    objElement.shiftX = event.pageX - biasX;
-    objElement.pressX = event.pageX - objElement.shiftX;
-    objElement.pressY = event.pageY - objElement.shiftY;
-    objElement.width = event.target.clientWidth;
-    objElement.height = event.target.clientHeight;
-
-    element.style.position = 'absolute';
-    document.body.appendChild(element);
-    element.style.zIndex = 1000; 
-
-    document.onmousemove = event => {
-        element.style.left = event.pageX - objElement.shiftX + 'px';
-        element.style.top = event.pageY - objElement.shiftY + 'px';
-    };
-
-    element.addEventListener('mouseup', event => {
-
-        document.onmousemove = null;
-
-        const CoordDropElementX = [(objElement.shiftX + 1)*(-1), objElement.width - objElement.shiftX + 1],
-        CoordDropElementY =[(objElement.shiftY + 1)*(-1), objElement.height - objElement.shiftY + 1];
-
-        let elemUp, 
-            elemDrop,
-            arrayTest = [];
-        
-        CoordDropElementX.forEach(x => {
-            CoordDropElementY.forEach(y => {
-                elemUp = document.elementFromPoint(event.clientX + x, event.clientY + y);
-                elemDrop = elemUp.closest('.droppable');
- 
-                if (elemDrop) {
-                    arrayTest.push(true);  
-                }else {
-                    arrayTest.push(false);
-                }
-            })
-        });
-
-        if (arrayTest.every(item => item === true)) {
-            elemDrop.appendChild(element)
-        } else {
-            element.style.left = objElement.pressX + 'px';
-            element.style.top = objElement.pressY + 'px';
+        if (previousElement.tagName === 'SPAN'){
+            formValid.removeChild(previousElement);
         }
     });
-});
 
-element.ondragstart = function() {
-  return false;
+    formElements[i].addEventListener('change', event => {
+        const value = event.target.value;
+
+        switch (formElements[i].name) {
+
+            case 'firstName' || 'secondName':
+                result[i] = testValuiName.test(value);
+                errorValui(i,formElements[i]);
+                break;
+
+            case 'secondName':
+                result[i] = testValuiName.test(value);
+                errorValui(i,formElements[i]);
+                break;
+
+            case 'age':
+                if (value > 18 && value < 101) {
+                    result[i] = testValuiAge.test(value);
+                    errorValui(i,formElements[i]);
+                } else {
+                    result[i] = false;
+                    errorValui(i,formElements[i]);
+                }
+                break;
+            
+            case 'email':
+                result[i] = testValueEmail.test(value);
+                errorValui(i,formElements[i]);
+                break;
+
+            case 'password':
+                result[i] = testValuePassword.test(value);
+                errorValui(i,formElements[i]);
+                break;
+        }
+    });
 };
 
+formValid.addEventListener('submit', event => {
+    const allValuesInput = [];
+    let trueAllValuesInput,
+        trueAllResultValidation;
+    
+    for (let i = 0; i < formElements.length-1; i++) {
+        allValuesInput.push(formElements[i].value)
+    }
 
+    trueAllValuesInput = allValuesInput.every(elem => elem !== '');
+    trueAllResultValidation = result.every(elem => elem === true);
+   
+    if (!trueAllValuesInput || !trueAllResultValidation) {
+            event.preventDefault();
+            console.log(allValuesInput + '    '+'ок '+ trueAllValuesInput+ '   ' + trueAllResultValidation)
+        
+    } 
+});
+
+function errorValui(index, elem){
+    let error;
+    error = document.createElement('span');
+    error.innerText = 'Введенные данных не соответствуют заявленным требованиям';
+    error.style.color = 'red';
+
+    if (!result[index]) {
+        formValid.insertBefore(error, elem);
+    }
+}

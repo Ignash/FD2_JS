@@ -1,86 +1,73 @@
-const testValuiName = /[A-Z][a-z]+/,
-    testValuiAge = /\d+/,
-    testValueEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-    testValuePassword = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,10}/;
+'use strict'
+const canvas = document.getElementById('name'),
+    ctx = canvas.getContext('2d');
 
-const formValid = document.getElementById('valid'),
-    formElements = formValid.elements,
-    result = [];
 
-for (let i = 0; i < formElements.length ; i++) {
+    ctx.lineWidth = 10;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
 
-    formElements[i].addEventListener('focus', event => {
-        const previousElement = event.target.previousElementSibling;
+ctx.strokeStyle = '#09f';
+ctx.beginPath();
+ctx.moveTo(50, 150);
+ctx.lineTo(50, 50);
+ctx.lineTo(100, 100);
+ctx.lineTo(150, 50);
+ctx.lineTo(150, 150);
+ctx.stroke();
 
-        if (previousElement.tagName === 'SPAN'){
-            formValid.removeChild(previousElement);
-        }
-    });
 
-    formElements[i].addEventListener('change', event => {
-        const value = event.target.value;
+ctx.strokeStyle = 'red';
+ctx.beginPath();
+ctx.moveTo(200, 150);
+ctx.lineTo(250, 50);
+ctx.lineTo(300, 150);
 
-        switch (formElements[i].name) {
+ctx.moveTo(220, 110);
+ctx.lineTo(280, 110);
+ctx.stroke();
 
-            case 'firstName' || 'secondName':
-                result[i] = testValuiName.test(value);
-                errorValui(i,formElements[i]);
-                break;
 
-            case 'secondName':
-                result[i] = testValuiName.test(value);
-                errorValui(i,formElements[i]);
-                break;
+ctx.strokeStyle = 'green';
+ctx.beginPath();
+ctx.moveTo(350, 50);
+ctx.lineTo(350, 150);
+ctx.moveTo(350, 100);
+ctx.lineTo(420, 150);
+ctx.moveTo(350, 100);
+ctx.lineTo(420, 50);
+ctx.stroke();
 
-            case 'age':
-                if (value > 18 && value < 101) {
-                    result[i] = testValuiAge.test(value);
-                    errorValui(i,formElements[i]);
-                } else {
-                    result[i] = false;
-                    errorValui(i,formElements[i]);
-                }
-                break;
-            
-            case 'email':
-                result[i] = testValueEmail.test(value);
-                errorValui(i,formElements[i]);
-                break;
+ctx.strokeStyle = 'red';
+ctx.beginPath();
+ctx.moveTo(450, 100);
+ctx.lineTo(450, 80);
+ctx.arcTo(450,50,480,50, 30);
+ctx.arcTo(530,50,530,80, 30);
+ctx.moveTo(450, 100);
+ctx.arcTo(450,150,480,150, 30, false);
+ctx.arcTo(530,150,530,120, 30, false);
 
-            case 'password':
-                result[i] = testValuePassword.test(value);
-                errorValui(i,formElements[i]);
-                break;
-        }
-    });
-};
+ctx.stroke();
 
-formValid.addEventListener('submit', event => {
-    const allValuesInput = [];
-    let trueAllValuesInput,
-        trueAllResultValidation;
-    
-    for (let i = 0; i < formElements.length-1; i++) {
-        allValuesInput.push(formElements[i].value)
-    }
+ctx.strokeStyle = 'green';
+ctx.beginPath();
+ctx.moveTo(580, 50);
+ctx.lineTo(580, 150);
+ctx.lineTo(660, 50);
+ctx.lineTo(660, 150);
 
-    trueAllValuesInput = allValuesInput.every(elem => elem !== '');
-    trueAllResultValidation = result.every(elem => elem === true);
-   
-    if (!trueAllValuesInput || !trueAllResultValidation) {
-            event.preventDefault();
-            console.log(allValuesInput + '    '+'ок '+ trueAllValuesInput+ '   ' + trueAllResultValidation)
-        
-    } 
-});
+ctx.stroke();
 
-function errorValui(index, elem){
-    let error;
-    error = document.createElement('span');
-    error.innerText = 'Введенные данных не соответствуют заявленным требованиям';
-    error.style.color = 'red';
+ctx.strokeStyle = '#09f';
+ctx.beginPath();
+ctx.moveTo(710, 150);
+ctx.lineTo(710, 50);
+ctx.lineTo(760, 100);
+ctx.lineTo(810, 50);
+ctx.lineTo(810, 150);
+ctx.stroke();
 
-    if (!result[index]) {
-        formValid.insertBefore(error, elem);
-    }
-}
+
+// ctx.lineTo(150, 50);
+// ctx.lineTo(150, 150);

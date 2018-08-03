@@ -42,12 +42,9 @@ const canvas = document.getElementById('name'),
 canvas.addEventListener('click', (event) => {
     const press = document.querySelector('#press');
 
-    for (let i = 0; i < coord.length; i++) {
-        if ((event.offsetX > coord[i].coordX && event.offsetX < (coord[i].coordX + 50)) && (event.offsetY > coord[i].coordY && event.offsetY < (coord[i].coordY + 50)))  {
-            press.innerText = `Вы нажали на квадрат: ${coord[i].name}`
+    coord.forEach((item) => {
+        if ((event.offsetX > item.coordX && event.offsetX < (item.coordX + 50)) && (event.offsetY >item.coordY && event.offsetY < (item.coordY + 50)))  {
+            press.innerText = `Вы нажали на квадрат: ${item.name}`
         }
-    }
+    })
 })
-
-
-

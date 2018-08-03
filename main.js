@@ -1,69 +1,53 @@
 'use strict'
 const canvas = document.getElementById('name'),
-    ctx = canvas.getContext('2d');
+    ctx = canvas.getContext('2d'),
+    coord = [];
+
+    for (var i=1;i<=8;i++){
+        ctx.font = "30px serif"
+        ctx.fillText(9 - i, 20, 50*i + 30)
+
+        ctx.font = "30px serif"
+        ctx.fillText(String.fromCharCode(64 + i), 50*i + 20, 40)
 
 
-ctx.lineCap = 'round';
-ctx.lineJoin = 'round';
-ctx.lineWidth = 10;
+        for (var j=1;j<=8;j++){
+            let coordX,
+            coordY,
+            nameCoord,
+            coordElem;
+         
+            coordX = j*50;
+            coordY = i*50;
+            nameCoord = `${String.fromCharCode(64 + j)} ${(9 - i)}`;
+            coordElem = {
+                name: nameCoord,
+                coordX: coordX,
+                coordY: coordY
+            }
+            coord.push(coordElem);
 
-ctx.strokeStyle = '#09f';
-ctx.beginPath();
-ctx.moveTo(50, 150);
-ctx.lineTo(50, 50);
-ctx.lineTo(100, 100);
-ctx.lineTo(150, 50);
-ctx.lineTo(150, 150);
-ctx.stroke();
+            if ( i%2 !== 0 && j%2 !==0 || i%2 === 0 && j%2 === 0) {
+                ctx.fillStyle = '#fbd3a0';
+                ctx.fillRect(coordX ,coordY,50,50);
+            }
 
+            if ( i%2 !== 0 && j%2 === 0 ||  i%2 === 0 && j%2 !==0) {
+                ctx.fillStyle = '#3c2418';
+                ctx.fillRect(coordX,coordY,50,50);
+            }
+        }
+    }
 
-ctx.strokeStyle = 'red';
-ctx.beginPath();
-ctx.moveTo(200, 150);
-ctx.lineTo(250, 50);
-ctx.lineTo(300, 150);
-ctx.moveTo(220, 110);
-ctx.lineTo(280, 110);
-ctx.stroke();
+canvas.addEventListener('click', (event) => {
+    const press = document.querySelector('#press');
 
-
-ctx.strokeStyle = 'green';
-ctx.beginPath();
-ctx.moveTo(350, 50);
-ctx.lineTo(350, 150);
-ctx.moveTo(350, 100);
-ctx.lineTo(420, 150);
-ctx.moveTo(350, 100);
-ctx.lineTo(420, 50);
-ctx.stroke();
-
-
-ctx.strokeStyle = 'red';
-ctx.beginPath();
-ctx.moveTo(450, 100);
-ctx.lineTo(450, 80);
-ctx.arcTo(450,50,480,50, 30);
-ctx.arcTo(530,50,530,80, 30);
-ctx.moveTo(450, 100);
-ctx.arcTo(450,150,480,150, 30, false);
-ctx.arcTo(530,150,530,120, 30, false);
-ctx.stroke();
+    for (let i = 0; i < coord.length; i++) {
+        if ((event.offsetX > coord[i].coordX && event.offsetX < (coord[i].coordX + 50)) && (event.offsetY > coord[i].coordY && event.offsetY < (coord[i].coordY + 50)))  {
+            press.innerText = `Вы нажали на квадрат: ${coord[i].name}`
+        }
+    }
+})
 
 
-ctx.strokeStyle = 'green';
-ctx.beginPath();
-ctx.moveTo(580, 50);
-ctx.lineTo(580, 150);
-ctx.lineTo(660, 50);
-ctx.lineTo(660, 150);
-ctx.stroke();
 
-
-ctx.strokeStyle = '#09f';
-ctx.beginPath();
-ctx.moveTo(710, 150);
-ctx.lineTo(710, 50);
-ctx.lineTo(760, 100);
-ctx.lineTo(810, 50);
-ctx.lineTo(810, 150);
-ctx.stroke();

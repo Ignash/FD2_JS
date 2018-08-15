@@ -1,60 +1,16 @@
-import States from './states.js';
-
-const   undoButton = document.getElementById('undo'),
-    inputs = document.querySelectorAll('input'),
-    states = new States({
-        name: 'maksim',
-        age: '25'
-    });
-
-inputs.forEach(input => {
-    input.addEventListener('change', event => {
-       const idValue = event.target.id,
-            inputValue = event.target.value,
-            valueNextState = {};
-
-        valueNextState[idValue] = inputValue;
-        states.push(valueNextState);
-    })
-});
-
-undoButton.addEventListener('click', () => {
-    states.undo();
-
-    inputs.forEach(input => {
-        const key = input.id,
-            valueInput = states.get(key);
-
-        input.value = valueInput;
-    })
-})
-    
-
-
-
-pringState();
-
-states.push({
-    name: 'dima'
-});
-
-pringState();
-
-states.push({
-    age: '55'
-});
-
-pringState();
-
-states.undo();
-
-pringState();
-
-function pringState() {
-    console.log();
-    console.log('====================');
-
-    console.log('name:', states.get('name'));
-    console.log('age:', states.get('age'));
-};
-
+class YouName extends HTMLElement {
+    static get observedAttributes() {return ['name', 'age']; }
+    constructor() {
+        super()
+        const shadow = this.attachShadow({mode: 'open'}),
+            p1 = document.createElement('p'),
+            style =document.createElement('style');
+            style.innerHTML = 'p{font-size:75px}';
+        shadow.appendChild(style);    
+        shadow.appendChild(p1);
+    }
+    attributeChangedCallback(attr, oldValue, newValue) {
+        this.shadowRoot.lastChild.innerText = `${this.getAttribute('name')} ${this.getAttribute('age')}`
+    }
+}
+customElements.define('you-name', YouName);
